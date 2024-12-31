@@ -35,8 +35,9 @@ const Login: React.FC<LoginProps> = ({ setUserEmail }) => {
       const { data } = await getUser({ variables: { email } });
 
       if (data?.getUser) {
-        const {getUser: {username}} = data;
+        const {getUser: {username,id, dailyGoal}} = data;
         setUserEmail(email);
+        localStorage.setItem("userDetails", JSON.stringify({ id: id, username: username, dailyGoal: dailyGoal }));
         notifySuccess("Login Success", `Welcome ${username}`)
         navigate("/add-word");
       } else {
