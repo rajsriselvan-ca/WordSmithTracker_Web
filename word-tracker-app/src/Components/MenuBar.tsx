@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { FaPlus, FaList, FaChartBar, FaSignOutAlt, FaChevronLeft } from "react-icons/fa";
 
 interface MenuBarProps {
@@ -13,6 +13,10 @@ const MenuBar: React.FC<MenuBarProps> = ({
   setIsSidebarOpen,
   setUserEmail,
 }) => {
+  const location = useLocation();
+
+  const isActive = (path: string) => location.pathname === path;
+
   return (
     <div
       className={`bg-menubar text-white transition-all duration-300 flex flex-col justify-between ${
@@ -33,7 +37,12 @@ const MenuBar: React.FC<MenuBarProps> = ({
         }`}
       >
         <li>
-          <Link to="/add-word" className="flex items-center space-x-4">
+          <Link
+            to="/add-word"
+            className={`flex items-center space-x-4 p-2 rounded ${
+              isActive("/add-word") ? "bg-primary" : ""
+            }`}
+          >
             <div
               className={`${
                 isSidebarOpen ? "text-xl" : "text-3xl"
@@ -50,7 +59,12 @@ const MenuBar: React.FC<MenuBarProps> = ({
           </Link>
         </li>
         <li>
-          <Link to="/word-list" className="flex items-center space-x-4">
+          <Link
+            to="/word-list"
+            className={`flex items-center space-x-4 p-2 rounded ${
+              isActive("/word-list") ? "bg-primary" : ""
+            }`}
+          >
             <div
               className={`${
                 isSidebarOpen ? "text-xl" : "text-3xl"
@@ -67,7 +81,12 @@ const MenuBar: React.FC<MenuBarProps> = ({
           </Link>
         </li>
         <li>
-          <Link to="/dashboard" className="flex items-center space-x-4">
+          <Link
+            to="/dashboard"
+            className={`flex items-center space-x-4 p-2 rounded ${
+              isActive("/dashboard") ? "bg-primary" : ""
+            }`}
+          >
             <div
               className={`${
                 isSidebarOpen ? "text-xl" : "text-3xl"
@@ -87,7 +106,9 @@ const MenuBar: React.FC<MenuBarProps> = ({
           <Link
             to="/"
             onClick={() => setUserEmail("")}
-            className="flex items-center space-x-4"
+            className={`flex items-center space-x-4 p-2 rounded ${
+              isActive("/") ? "bg-primary" : ""
+            }`}
           >
             <div
               className={`${

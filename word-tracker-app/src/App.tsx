@@ -4,9 +4,11 @@ import MenuBar from "./Components/MenuBar.tsx";
 import Login from "./Components/Login.tsx";
 import Register from "./Components/Register.tsx";
 import AddWord from "./Components/AddWord.tsx";
+import WordList from "./Components/WordList.tsx";
+import Dashboard from "./Components/Dashboard.tsx";
 
 const App: React.FC = () => {
-  const [userEmail, setUserEmail] = useState<string>("");
+  const [userEmail, setUserEmail] = useState<string | null>(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(true);
 
   return (
@@ -29,6 +31,14 @@ const App: React.FC = () => {
             <Route
               path="/add-word"
               element={userEmail ? <AddWord /> : <RedirectToAuth />}
+            />
+            <Route
+              path="/word-list"
+              element={userEmail ? <WordList /> : <RedirectToAuth />}
+            />
+            <Route
+              path="/dashboard"
+              element={userEmail ? <Dashboard /> : <RedirectToAuth />}
             />
           </Routes>
         </div>

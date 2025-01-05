@@ -1,12 +1,40 @@
-import React, { useState } from "react";
-import { useQuery, useMutation, gql } from "@apollo/client";
-import { notifySuccess, notifyError } from "../Shared/Notification.ts";
+import React, { useState, useEffect } from "react";
+import { useLazyQuery, useMutation, gql } from "@apollo/client";
+import { notifyError } from "../Shared/Notification.ts";
+import { message } from "antd";
+
+interface Word {
+  id: string;
+  word: string;
+  language: string;
+  meaning: string;
+  exampleSentence: string;
+  createdAt: string;
+}
+
+interface GetWordsResponse {
+  getWords: Word[];
+}
+
 
 const GET_LANGUAGES = gql`
   query GetLanguages {
     getLanguages {
       id
       name
+    }
+  }
+`;
+
+const GET_WORDS = gql`
+  query GetWords($userId: String!) {
+    getWords(userId: $userId) {
+      id
+      word
+      language
+      meaning
+      exampleSentence
+      createdAt
     }
   }
 `;
@@ -44,26 +72,59 @@ const AddWord: React.FC = () => {
   const [meaning, setMeaning] = useState("");
   const [sampleSentence, setSampleSentence] = useState("");
   const [saving, setSaving] = useState(false);
+  const [languages, setLanguages] = useState<{ id: string; name: string }[]>([]);
 
-  const { data, loading, error } = useQuery(GET_LANGUAGES);
+  const [loadLanguages, { loading: languagesLoading }] = useLazyQuery(GET_LANGUAGES);
 
-  const [addWord] = useMutation(ADD_WORD);
+  const [addWord] = useMutation(ADD_WORD, {
+    update(cache, { data: { addWord } }) {
+      const storedUser = localStorage.getItem("userDetails");
+      const { id } = storedUser ? JSON.parse(storedUser) : {};
+  
+      const existingWords = cache.readQuery<GetWordsResponse>({
+        query: GET_WORDS,
+        variables: { userId: id },
+      });
+  
+      if (existingWords) {
+        cache.writeQuery({
+          query: GET_WORDS,
+          variables: { userId: id },
+          data: {
+            getWords: [...existingWords.getWords, addWord],
+          },
+        });
+      }
+    },
+  });
+  
 
-  if (loading) return <p>Loading languages...</p>;
-  if (error) return <p>Error loading languages: {error.message}</p>;
+  useEffect(() => {
+    const fetchLanguages = async () => {
+      try {
+        const { data } = await loadLanguages();
+        if (data?.getLanguages) {
+        setLanguages(data.getLanguages);
+        } else {
+        notifyError("Sorry!", `Failed to fetch language list`);
+        return;
+        }
+      } catch (error: any) {
+        const errorMessage = error?.message || "An unexpected error occurred.";
+        notifyError("Sorry!", `Error fetching languages: ${errorMessage}`);
+      }
+    };
+
+    fetchLanguages();
+  }, [loadLanguages]);
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (!newWord || !language || !meaning) {
-      alert("Please fill out all required fields!");
-      return;
-    }
-
     try {
-      setSaving(true); 
+      setSaving(true);
       const createdAt = new Date().toISOString();
-      const exampleSentence = sampleSentence || ""; 
+      const exampleSentence = sampleSentence;
       const storedUser = localStorage.getItem("userDetails");
       const { id } = storedUser ? JSON.parse(storedUser) : null;
 
@@ -78,18 +139,20 @@ const AddWord: React.FC = () => {
         },
       });
 
-      notifySuccess("Word Saved!", "Word added successfully.");
+      message.success("Word added successfully.");
       setNewWord("");
       setLanguage("");
       setMeaning("");
       setSampleSentence("");
-    } catch (error) {
-      console.log("Error adding word:", error);
-      notifyError("Sorry!", `${error.message}`);
+    } catch (error: any) {
+      const errorMessage = error?.message || "An unexpected error occurred.";
+      notifyError("Sorry!", `Failed to add word. Please try again: ${errorMessage}`);
     } finally {
-      setSaving(false); 
+      setSaving(false);
     }
   };
+
+  if (languagesLoading) return <p>Loading languages...</p>;
 
   return (
     <div className="p-4 max-w-md mx-auto">
@@ -121,7 +184,7 @@ const AddWord: React.FC = () => {
             required
           >
             <option value="">Select a language</option>
-            {data.getLanguages.map((lang: { id: string; name: string }) => (
+            {languages.map((lang) => (
               <option key={lang.id} value={lang.name}>
                 {lang.name}
               </option>
@@ -143,8 +206,11 @@ const AddWord: React.FC = () => {
           />
         </div>
         <div>
-          <label className="block text-sm font-medium mb-1" htmlFor="sampleSentence">
-            Sample Sentence (Optional)
+          <label
+            className="block text-sm font-medium mb-1"
+            htmlFor="sampleSentence"
+          >
+            Sample Sentence
           </label>
           <textarea
             id="sampleSentence"
@@ -152,12 +218,13 @@ const AddWord: React.FC = () => {
             onChange={(e) => setSampleSentence(e.target.value)}
             className="w-full border border-gray-300 rounded px-3 py-2 resize-y draggable"
             placeholder="Enter a sample sentence"
+            required
           />
         </div>
         <button
           type="submit"
-          className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
-          disabled={saving} 
+          className="bg-primary text-white py-2 px-4 rounded hover:bg-lavender-light"
+          disabled={saving}
         >
           {saving ? "Saving..." : "Save"}
         </button>
@@ -172,4 +239,3 @@ const AddWord: React.FC = () => {
 };
 
 export default AddWord;
-

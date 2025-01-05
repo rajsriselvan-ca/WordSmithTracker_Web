@@ -35,7 +35,7 @@ const Login: React.FC<LoginProps> = ({ setUserEmail }) => {
       const { data } = await getUser({ variables: { email } });
 
       if (data?.getUser) {
-        const {getUser: {username,id, dailyGoal}} = data;
+        const {getUser: {username, id, dailyGoal}} = data;
         setUserEmail(email);
         localStorage.setItem("userDetails", JSON.stringify({ id: id, username: username, dailyGoal: dailyGoal }));
         notifySuccess("Login Success", `Welcome ${username}`)
@@ -60,7 +60,12 @@ const Login: React.FC<LoginProps> = ({ setUserEmail }) => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-4">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-4 overflow-hidden">
+      <img
+        src="/logo192.png"
+        alt="App Logo"
+        className="w-24 h-24 mb-4"
+      />
       <h1 className="text-3xl font-bold mb-6">Sign In</h1>
       <input
         type="email"
@@ -86,6 +91,7 @@ const Login: React.FC<LoginProps> = ({ setUserEmail }) => {
       </p>
     </div>
   );
+  
 };
 
 export default Login;
