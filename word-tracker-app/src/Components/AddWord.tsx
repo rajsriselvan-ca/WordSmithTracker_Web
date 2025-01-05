@@ -2,20 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useLazyQuery, useMutation, gql } from "@apollo/client";
 import { notifyError } from "../Shared/Notification.ts";
 import { message } from "antd";
-
-interface Word {
-  id: string;
-  word: string;
-  language: string;
-  meaning: string;
-  exampleSentence: string;
-  createdAt: string;
-}
-
-interface GetWordsResponse {
-  getWords: Word[];
-}
-
+import { GetWordsResponse } from "../Types/Word_Types.ts"
 
 const GET_LANGUAGES = gql`
   query GetLanguages {

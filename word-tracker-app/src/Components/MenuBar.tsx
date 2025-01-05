@@ -1,13 +1,8 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { FaPlus, FaList, FaChartBar, FaSignOutAlt, FaChevronLeft } from "react-icons/fa";
-
-interface MenuBarProps {
-  isSidebarOpen: boolean;
-  setIsSidebarOpen: (state: boolean) => void;
-  setUserEmail: (email: string) => void;
-}
-
+import { MenuBarProps } from "../Types/MenuBar_Types";
+ 
 const MenuBar: React.FC<MenuBarProps> = ({
   isSidebarOpen,
   setIsSidebarOpen,

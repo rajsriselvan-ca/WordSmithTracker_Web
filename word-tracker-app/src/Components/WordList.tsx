@@ -2,26 +2,11 @@ import React, { useEffect, useState } from "react";
 import { useLazyQuery, useMutation, gql } from "@apollo/client";
 import { Table, Button, Modal, Input, Select, Space, message } from "antd";
 import { notifyError } from "../Shared/Notification.ts";
+import {Word, GetWordsResponse} from "../Types/Word_Types.ts"
+import {GetLanguagesResponse} from "../Types/Language_Types.ts";
 
 const { TextArea } = Input;
 const { Option } = Select;
-
-interface Word {
-  id: string;
-  word: string;
-  language: string;
-  meaning: string;
-  exampleSentence: string;
-  createdAt: string;
-}
-
-interface GetWordsResponse {
-  getWords: Word[];
-}
-
-interface GetLanguagesResponse {
-  getLanguages: { id: string; name: string }[];
-}
 
 const GET_WORDS = gql`
   query GetWords($userId: String!) {

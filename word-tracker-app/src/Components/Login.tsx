@@ -2,10 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLazyQuery, gql } from "@apollo/client";
 import { notifySuccess } from "../Shared/Notification.ts"; 
-
-interface LoginProps {
-  setUserEmail: (email: string) => void;
-}
+import {LoginProps} from "../Types/Login_Types.ts"
 
 const GET_USER = gql`
   query GetUser($email: String!) {
