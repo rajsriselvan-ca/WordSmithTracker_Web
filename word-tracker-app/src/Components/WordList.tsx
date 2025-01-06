@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useLazyQuery, useMutation} from "@apollo/client";
-import { Table, Button, Modal, Input, Select, Space, message } from "antd";
+import { Table, Modal, Input, Select, message } from "antd";
 import { notifyError } from "../Shared/Notification.ts";
 import {Word, GetWordsResponse} from "../Types/Word_Types.ts"
 import {GetLanguagesResponse} from "../Types/Language_Types.ts";
 import {GET_WORDS} from "../GraphQL/Queries/Words_Queries.ts";
 import {GET_LANGUAGES} from "../GraphQL/Queries/LanguageList_Queries.ts";
 import {EDIT_WORD, DELETE_WORD} from "../GraphQL/Mutations/Words_Mutations.ts";
+import { GetColumns } from "../MetaData/WordList_Column.tsx";
 
 const { TextArea } = Input;
 const { Option } = Select;
@@ -113,7 +114,6 @@ const WordList: React.FC = () => {
       message.error("Failed to edit the word. Word or User ID is missing. Please try again.");
       return;
     }
-  
     try {
       setFormState({
         id: word.id,
@@ -189,46 +189,7 @@ const WordList: React.FC = () => {
     }
   };
   
-
-  const columns = [
-    {
-      title: "Word",
-      dataIndex: "word",
-      key: "word",
-    },
-    {
-      title: "Language",
-      dataIndex: "language",
-      key: "language",
-    },
-    {
-      title: "Meaning",
-      dataIndex: "meaning",
-      key: "meaning",
-    },
-    {
-      title: "Example Sentence",
-      dataIndex: "exampleSentence",
-      key: "exampleSentence",
-    },
-    {
-      title: "Actions",
-      key: "actions",
-      render: (text: any, record: Word) => (
-        <Space size="middle">
-          <button
-            className="bg-primary text-white py-2 px-4 rounded hover:bg-lavender-light"
-            onClick={() => handleEdit(record)}
-          >
-            Edit
-          </button>
-          <Button danger onClick={() => handleDelete(record.id)}>
-            Delete
-          </Button>
-        </Space>
-      ),
-    },
-  ];
+  const columns = GetColumns(handleEdit, handleDelete);
 
   return (
     <div>
