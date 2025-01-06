@@ -6,6 +6,8 @@ import { GetWordsResponse } from "../Types/Word_Types.ts";
 import {GET_LANGUAGES} from "../GraphQL/Queries/LanguageList_Queries.ts";
 import {GET_WORDS} from "../GraphQL/Queries/Words_Queries.ts";
 import {ADD_WORD} from "../GraphQL/Mutations/Words_Mutations.ts";
+import Loader from "../UIComponents/Loader.tsx";
+import AddWordForm from "../UIComponents/AddWordForm.tsx";
 
 const AddWord: React.FC = () => {
   const [newWord, setNewWord] = useState("");
@@ -93,88 +95,26 @@ const AddWord: React.FC = () => {
     }
   };
 
-  if (languagesLoading) return <p>Loading languages...</p>;
+  if (languagesLoading) {
+    return <div><Loader /></div>
+  };
 
   return (
     <div className="p-4 max-w-md mx-auto">
       <h1 className="text-2xl font-bold mb-4">Add New Word</h1>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label className="block text-sm font-medium mb-1" htmlFor="newWord">
-            New Word
-          </label>
-          <input
-            type="text"
-            id="newWord"
-            value={newWord}
-            onChange={(e) => setNewWord(e.target.value)}
-            className="w-full border border-gray-300 rounded px-3 py-2"
-            placeholder="Enter the new word"
-            required
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-medium mb-1" htmlFor="language">
-            Language
-          </label>
-          <select
-            id="language"
-            value={language}
-            onChange={(e) => setLanguage(e.target.value)}
-            className="w-full border border-gray-300 rounded px-3 py-2"
-            required
-          >
-            <option value="">Select a language</option>
-            {languages.map((lang) => (
-              <option key={lang.id} value={lang.name}>
-                {lang.name}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div>
-          <label className="block text-sm font-medium mb-1" htmlFor="meaning">
-            Meaning
-          </label>
-          <input
-            type="text"
-            id="meaning"
-            value={meaning}
-            onChange={(e) => setMeaning(e.target.value)}
-            className="w-full border border-gray-300 rounded px-3 py-2"
-            placeholder="Enter the meaning"
-            required
-          />
-        </div>
-        <div>
-          <label
-            className="block text-sm font-medium mb-1"
-            htmlFor="sampleSentence"
-          >
-            Sample Sentence
-          </label>
-          <textarea
-            id="sampleSentence"
-            value={sampleSentence}
-            onChange={(e) => setSampleSentence(e.target.value)}
-            className="w-full border border-gray-300 rounded px-3 py-2 resize-y draggable"
-            placeholder="Enter a sample sentence"
-            required
-          />
-        </div>
-        <button
-          type="submit"
-          className="bg-primary text-white py-2 px-4 rounded hover:bg-lavender-light"
-          disabled={saving}
-        >
-          {saving ? "Saving..." : "Save"}
-        </button>
-        {saving && (
-          <div className="flex justify-center mt-4">
-            <div className="loader w-6 h-6 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-          </div>
-        )}
-      </form>
+      <AddWordForm
+        newWord={newWord}
+        setNewWord={setNewWord}
+        language={language}
+        setLanguage={setLanguage}
+        meaning={meaning}
+        setMeaning={setMeaning}
+        sampleSentence={sampleSentence}
+        setSampleSentence={setSampleSentence}
+        languages={languages}
+        saving={saving}
+        handleSubmit={handleSubmit}
+      />
     </div>
   );
 };

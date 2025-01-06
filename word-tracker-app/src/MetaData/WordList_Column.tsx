@@ -1,10 +1,10 @@
 import React from "react";
-import { Space, Button } from "antd";
-import { Word } from "../Types/Word_Types"; 
+import { Space } from "antd";
+import { Word } from "../Types/Word_Types";
 
 export const GetColumns = (
   handleEdit: (record: Word) => void,
-  handleDelete: (id: string) => void
+  renderDelete: (id: string) => React.ReactNode // Pass the delete modal as a render function
 ) => [
   {
     title: "Word",
@@ -37,10 +37,8 @@ export const GetColumns = (
         >
           Edit
         </button>
-        <Button danger onClick={() => handleDelete(record.id)}>
-          Delete
-        </Button>
+        {renderDelete(record.id)} {/* Render the delete modal */}
       </Space>
     ),
-  }
+  },
 ];
