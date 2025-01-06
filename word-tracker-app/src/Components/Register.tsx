@@ -1,18 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useMutation, gql } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import { notifyError, notifySuccess } from "../Shared/Notification.ts"; 
-
-const CREATE_USER = gql`
-  mutation createUser($username: String!, $email: String!, $dailyGoal: Int!, $createdAt: String!) {
-    createUser(username: $username, email: $email, dailyGoal: $dailyGoal, createdAt: $createdAt) {
-      username
-      email
-      dailyGoal
-      createdAt
-    }
-  }
-`;
+import {CREATE_USER} from '../GraphQL/Mutations/User_Mutations.ts';
 
 const Register: React.FC = () => {
   const [username, setUsername] = useState<string>("");
@@ -54,7 +44,7 @@ const Register: React.FC = () => {
     setError("");
     try {
       const createdAt = new Date().toISOString(); 
-      const { data } = await createUser({
+      await createUser({
         variables: { username, email, dailyGoal: Number(dailyGoal), createdAt },
       });
       notifySuccess("Success", "User Successfully Created!")

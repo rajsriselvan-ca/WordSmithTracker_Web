@@ -1,57 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { useLazyQuery, useMutation, gql } from "@apollo/client";
+import { useLazyQuery, useMutation } from "@apollo/client";
 import { notifyError } from "../Shared/Notification.ts";
 import { message } from "antd";
-import { GetWordsResponse } from "../Types/Word_Types.ts"
-
-const GET_LANGUAGES = gql`
-  query GetLanguages {
-    getLanguages {
-      id
-      name
-    }
-  }
-`;
-
-const GET_WORDS = gql`
-  query GetWords($userId: String!) {
-    getWords(userId: $userId) {
-      id
-      word
-      language
-      meaning
-      exampleSentence
-      createdAt
-    }
-  }
-`;
-
-const ADD_WORD = gql`
-  mutation AddWord(
-    $userId: String!
-    $word: String!
-    $language: String!
-    $meaning: String!
-    $exampleSentence: String!
-    $createdAt: String!
-  ) {
-    addWord(
-      userId: $userId
-      word: $word
-      language: $language
-      meaning: $meaning
-      exampleSentence: $exampleSentence
-      createdAt: $createdAt
-    ) {
-      id
-      word
-      language
-      meaning
-      exampleSentence
-      createdAt
-    }
-  }
-`;
+import { GetWordsResponse } from "../Types/Word_Types.ts";
+import {GET_LANGUAGES} from "../GraphQL/Queries/LanguageList_Queries.ts";
+import {GET_WORDS} from "../GraphQL/Queries/Words_Queries.ts";
+import {ADD_WORD} from "../GraphQL/Mutations/Words_Mutations.ts";
 
 const AddWord: React.FC = () => {
   const [newWord, setNewWord] = useState("");

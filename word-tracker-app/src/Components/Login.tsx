@@ -1,19 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useLazyQuery, gql } from "@apollo/client";
+import { useLazyQuery } from "@apollo/client";
 import { notifySuccess } from "../Shared/Notification.ts"; 
-import {LoginProps} from "../Types/Login_Types.ts"
-
-const GET_USER = gql`
-  query GetUser($email: String!) {
-    getUser(email: $email) {
-      id
-      email
-      username
-      dailyGoal
-    }
-  }
-`;
+import {LoginProps} from "../Types/Login_Types.ts";
+import {GET_USER} from "../GraphQL/Queries/User_Queries.ts";
 
 const Login: React.FC<LoginProps> = ({ setUserEmail }) => {
   const [email, setEmail] = useState<string>("");

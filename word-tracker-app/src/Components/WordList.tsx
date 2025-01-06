@@ -1,70 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { useLazyQuery, useMutation, gql } from "@apollo/client";
+import { useLazyQuery, useMutation} from "@apollo/client";
 import { Table, Button, Modal, Input, Select, Space, message } from "antd";
 import { notifyError } from "../Shared/Notification.ts";
 import {Word, GetWordsResponse} from "../Types/Word_Types.ts"
 import {GetLanguagesResponse} from "../Types/Language_Types.ts";
+import {GET_WORDS} from "../GraphQL/Queries/Words_Queries.ts";
+import {GET_LANGUAGES} from "../GraphQL/Queries/LanguageList_Queries.ts";
+import {EDIT_WORD, DELETE_WORD} from "../GraphQL/Mutations/Words_Mutations.ts";
 
 const { TextArea } = Input;
 const { Option } = Select;
-
-const GET_WORDS = gql`
-  query GetWords($userId: String!) {
-    getWords(userId: $userId) {
-      id
-      word
-      language
-      meaning
-      exampleSentence
-      createdAt
-    }
-  }
-`;
-
-const GET_LANGUAGES = gql`
-  query GetLanguages {
-    getLanguages {
-      id
-      name
-    }
-  }
-`;
-
-const DELETE_WORD = gql`
-  mutation DeleteWord($id: ID!) {
-    deleteWord(id: $id)
-  }
-`;
-
-const EDIT_WORD = gql`
-  mutation EditWord(
-    $id: ID!
-    $userId: String!
-    $word: String
-    $language: String
-    $meaning: String
-    $exampleSentence: String
-    $createdAt: String
-  ) {
-    editWord(
-      id: $id
-      userId: $userId
-      word: $word
-      language: $language
-      meaning: $meaning
-      exampleSentence: $exampleSentence
-      createdAt: $createdAt
-    ) {
-      id
-      userId
-      word
-      language
-      meaning
-      exampleSentence
-      createdAt
-    }
-  }
-`;
 
 const WordList: React.FC = () => {
   const [userId, setUserId] = useState<string>("");
