@@ -1,14 +1,16 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useLazyQuery } from "@apollo/client";
-import { notifySuccess } from "../Shared/Notification.ts"; 
-import {LoginProps} from "../Types/Login_Types.ts";
-import {GET_USER} from "../GraphQL/Queries/User_Queries.ts";
-
+import { useMutation } from "@apollo/client";
+import { notifySuccess, notifyError } from "../Shared/Notification.ts"; 
+import { LoginProps } from "../Types/Login_Types.ts";
+import { LOGIN_USER } from "../GraphQL/Mutations/Login_Mutation.ts";
+import {useAuth} from "../Context/AuthContext.tsx";
+ 
 const Login: React.FC<LoginProps> = ({ setUserEmail }) => {
+  const {login} = useAuth();
   const [email, setEmail] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
-  const [getUser, { loading }] = useLazyQuery(GET_USER);
+  const [loginUser, { loading }] = useMutation(LOGIN_USER);
   const navigate = useNavigate();
 
   const handleLogin = async () => {
@@ -19,19 +21,23 @@ const Login: React.FC<LoginProps> = ({ setUserEmail }) => {
     setError(null);
 
     try {
-      const { data } = await getUser({ variables: { email } });
-
-      if (data?.getUser) {
-        const {getUser: {username, id, dailyGoal}} = data;
+      const { data } = await loginUser({ variables: { email } });
+      if (data?.loginUser) {
+        const { loginUser: { token, user } } = data;
+        login(token, {
+          id: user.id,
+          username: user.username,
+          dailyGoal: user.dailyGoal,
+        });
         setUserEmail(email);
-        localStorage.setItem("userDetails", JSON.stringify({ id: id, username: username, dailyGoal: dailyGoal }));
-        notifySuccess("Login Success", `Welcome ${username}`)
+        notifySuccess("Login Success", `Welcome ${user.username}`);
         navigate("/add-word");
       } else {
-        setError("User not found. Please register first.");
+        setError("Invalid credentials. Please try again.");
       }
     } catch (err) {
-      setError("An error occurred while checking the user. Please try again.");
+      notifyError("Login Failed", "An error occurred during login. Please try again.");
+      setError("An error occurred. Please try again.");
     }
   };
 
@@ -68,7 +74,7 @@ const Login: React.FC<LoginProps> = ({ setUserEmail }) => {
         className="bg-primary text-white px-4 py-2 rounded hover:bg-lavender-light"
         disabled={loading}
       >
-        {loading ? "Checking..." : "Login"}
+        {loading ? "Logging in..." : "Login"}
       </button>
       <p
         className="mt-4 text-blue-500 cursor-pointer"
@@ -78,7 +84,6 @@ const Login: React.FC<LoginProps> = ({ setUserEmail }) => {
       </p>
     </div>
   );
-  
 };
 
 export default Login;

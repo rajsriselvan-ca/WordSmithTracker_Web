@@ -6,13 +6,15 @@ import Register from "./Components/Register.tsx";
 import AddWord from "./Components/AddWord.tsx";
 import WordList from "./Components/WordList.tsx";
 import Dashboard from "./Components/Dashboard.tsx";
+import {AuthProvider} from "./Context/AuthContext.tsx"
 
 const App: React.FC = () => {
   const [userEmail, setUserEmail] = useState<string | null>(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(true);
 
   return (
-    <Router>
+    <AuthProvider>
+      <Router>
       <div className="min-h-screen flex">
         {userEmail && (
           <MenuBar
@@ -44,6 +46,7 @@ const App: React.FC = () => {
         </div>
       </div>
     </Router>
+    </AuthProvider>
   );
 };
 
