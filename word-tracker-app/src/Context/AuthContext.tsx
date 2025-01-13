@@ -1,10 +1,10 @@
 import React, { createContext, useState, useContext, useEffect } from "react";
-import {AuthContextType} from "../Types/AuthContext_Types"
+import { AuthContextType } from "../Types/AuthContext_Types";
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [userDetails, setUser] = useState<any>(null);
+  const [userDetails, setUserDetails] = useState<any>(null);
   const [token, setToken] = useState<string | null>(null);
 
   useEffect(() => {
@@ -13,20 +13,20 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     if (savedToken && savedUser) {
       setToken(savedToken);
-      setUser(JSON.parse(savedUser));
+      setUserDetails(JSON.parse(savedUser));
     }
   }, []);
 
   const login = (newToken: string, newUser: any) => {
     setToken(newToken);
-    setUser(newUser);
+    setUserDetails(newUser);
     localStorage.setItem("authToken", newToken);
     localStorage.setItem("userDetails", JSON.stringify(newUser));
   };
 
   const logout = () => {
     setToken(null);
-    setUser(null);
+    setUserDetails(null);
     localStorage.removeItem("authToken");
     localStorage.removeItem("userDetails");
   };

@@ -1,5 +1,4 @@
 export interface MenuBarProps {
   isSidebarOpen: boolean;
-  setIsSidebarOpen: (state: boolean) => void;
-  setUserEmail: (email: string) => void;
+  setIsSidebarOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }

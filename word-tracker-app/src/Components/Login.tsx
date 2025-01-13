@@ -2,11 +2,10 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "@apollo/client";
 import { notifySuccess, notifyError } from "../Shared/Notification"; 
-import { LoginProps } from "../Types/Login_Types";
 import { LOGIN_USER } from "../GraphQL/Mutations/Login_Mutation";
 import {useAuth} from "../Context/AuthContext";
  
-const Login: React.FC<LoginProps> = ({ setUserEmail }) => {
+const Login: React.FC = () => {
   const {login} = useAuth();
   const [email, setEmail] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
@@ -29,7 +28,6 @@ const Login: React.FC<LoginProps> = ({ setUserEmail }) => {
           username: user.username,
           dailyGoal: user.dailyGoal,
         });
-        setUserEmail(email);
         notifySuccess("Login Success", `Welcome ${user.username}`);
         navigate("/add-word");
       } else {
