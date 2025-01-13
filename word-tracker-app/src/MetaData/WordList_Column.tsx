@@ -4,7 +4,7 @@ import { Word } from "../Types/Word_Types";
 
 export const GetColumns = (
   handleEdit: (record: Word) => void,
-  renderDelete: (id: string) => React.ReactNode // Pass the delete modal as a render function
+  renderDelete: (id: string) => React.ReactNode 
 ) => [
   {
     title: "Word",
@@ -37,7 +37,7 @@ export const GetColumns = (
         >
           Edit
         </button>
-        {renderDelete(record.id)} {/* Render the delete modal */}
+        {renderDelete(record.id)} 
       </Space>
     ),
   },
