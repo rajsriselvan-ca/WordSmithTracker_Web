@@ -1,5 +1,5 @@
 export interface AuthContextType {
-  user: any;
+  userDetails: any;
   token: string | null;
   login: (token: string, user: any) => void;
   logout: () => void;

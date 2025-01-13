@@ -4,7 +4,7 @@ import {AuthContextType} from "../Types/AuthContext_Types"
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [user, setUser] = useState<any>(null);
+  const [userDetails, setUser] = useState<any>(null);
   const [token, setToken] = useState<string | null>(null);
 
   useEffect(() => {
@@ -34,7 +34,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   return (
     <AuthContext.Provider
       value={{
-        user,
+        userDetails,
         token,
         login,
         logout,

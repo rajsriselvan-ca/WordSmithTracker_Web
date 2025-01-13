@@ -6,8 +6,10 @@ import { GetWordsResponse } from "../Types/Word_Types.ts";
 import { GET_LANGUAGES } from "../GraphQL/Queries/LanguageList_Queries.ts";
 import { GET_WORDS } from "../GraphQL/Queries/Words_Queries.ts";
 import { ADD_WORD } from "../GraphQL/Mutations/Words_Mutations.ts";
+import {useAuth} from "../Context/AuthContext.tsx";
 
 export const UseAddWord = () => {
+  const {userDetails} = useAuth();
   const [newWord, setNewWord] = useState("");
   const [language, setLanguage] = useState("");
   const [meaning, setMeaning] = useState("");
@@ -19,9 +21,8 @@ export const UseAddWord = () => {
 
   const [addWord] = useMutation(ADD_WORD, {
     update(cache, { data: { addWord } }) {
-      const storedUser = localStorage.getItem("userDetails");
-      const { id } = storedUser ? JSON.parse(storedUser) : {};
-  
+      const storedUser = userDetails;
+      const { id } = storedUser ? storedUser : {};
       const existingWords = cache.readQuery<GetWordsResponse>({
         query: GET_WORDS,
         variables: { userId: id },
@@ -50,7 +51,7 @@ export const UseAddWord = () => {
         }
       } catch (error: any) {
         const errorMessage = error?.message || "An unexpected error occurred.";
-        notifyError("Sorry!", `Error fetching languages: ${errorMessage}`);
+        notifyError("Sorry!", `Error while fetching languages: ${errorMessage}`);
       }
     };
 
@@ -64,8 +65,8 @@ export const UseAddWord = () => {
       setSaving(true);
       const createdAt = new Date().toISOString();
       const exampleSentence = sampleSentence;
-      const storedUser = localStorage.getItem("userDetails");
-      const { id } = storedUser ? JSON.parse(storedUser) : null;
+      const storedUser = userDetails;
+      const { id } = storedUser ? storedUser : null;
 
       await addWord({
         variables: {

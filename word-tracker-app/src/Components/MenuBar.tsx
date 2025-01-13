@@ -2,12 +2,13 @@ import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { FaPlus, FaList, FaChartBar, FaSignOutAlt, FaChevronLeft } from "react-icons/fa";
 import { MenuBarProps } from "../Types/MenuBar_Types";
- 
+import {useLogout} from "../Shared/Logout.ts"
+
 const MenuBar: React.FC<MenuBarProps> = ({
   isSidebarOpen,
   setIsSidebarOpen,
-  setUserEmail,
 }) => {
+  const handleLogout =  useLogout();
   const location = useLocation();
 
   const isActive = (path: string) => location.pathname === path;
@@ -98,27 +99,17 @@ const MenuBar: React.FC<MenuBarProps> = ({
           </Link>
         </li>
         <li>
-          <Link
-            to="/"
-            onClick={() => setUserEmail("")}
+          <button
+            onClick={handleLogout} 
             className={`flex items-center space-x-4 p-2 rounded ${
               isActive("/") ? "bg-primary" : ""
             }`}
           >
-            <div
-              className={`${
-                isSidebarOpen ? "text-xl" : "text-3xl"
-              } transition-all`}
-            >
-              <FaSignOutAlt />
-            </div>
+            <FaSignOutAlt />
             {isSidebarOpen && (
-              <span>
-                <span className="font-bold">Logout</span>
-                <p className="text-sm text-gray-300">Exit the application</p>
-              </span>
+              <span className="font-bold">Logout</span>
             )}
-          </Link>
+          </button>
         </li>
       </ul>
       <div
