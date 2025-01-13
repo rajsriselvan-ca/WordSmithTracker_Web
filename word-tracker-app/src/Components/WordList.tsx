@@ -1,12 +1,12 @@
 import React from "react";
 import { Table } from "antd";
-import { GetColumns } from "../MetaData/WordList_Column.tsx";
-import Loader from "../UIComponents/Loader.tsx";
-import EditWordModal from "../UIComponents/EditWordModal.tsx";
-import DeleteConfirmationModal from "../UIComponents/DeleteConfirmationModal.tsx";
-import { UseWordList } from "../CustomHooks/UseWordList.ts";
-import { GET_WORDS } from "../GraphQL/Queries/Words_Queries.ts";
-import { notifyError } from "../Shared/Notification.ts";
+import { GetColumns } from "../MetaData/WordList_Column";
+import Loader from "../UIComponents/Loader";
+import EditWordModal from "../UIComponents/EditWordModal";
+import DeleteConfirmationModal from "../UIComponents/DeleteConfirmationModal";
+import { UseWordList } from "../CustomHooks/UseWordList";
+import { GET_WORDS } from "../GraphQL/Queries/Words_Queries";
+import { notifyError } from "../Shared/Notification";
 
 const WordList: React.FC = () => {
   const {

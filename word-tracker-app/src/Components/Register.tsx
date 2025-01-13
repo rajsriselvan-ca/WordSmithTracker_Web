@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "@apollo/client";
-import { notifyError, notifySuccess } from "../Shared/Notification.ts"; 
-import {CREATE_USER} from '../GraphQL/Mutations/User_Mutations.ts';
+import { notifyError, notifySuccess } from "../Shared/Notification"; 
+import {CREATE_USER} from '../GraphQL/Mutations/User_Mutations';
 
 const Register: React.FC = () => {
   const [username, setUsername] = useState<string>("");
@@ -49,7 +49,7 @@ const Register: React.FC = () => {
       });
       notifySuccess("Success", "User Successfully Created!")
       navigate("/");
-    } catch (error) {
+    } catch (error: any) {
       setError("Registration failed. Please try again.");
       notifyError("Error", error.message)
     }

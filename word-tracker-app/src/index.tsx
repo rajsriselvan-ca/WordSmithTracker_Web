@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App.tsx';
+import App from './App';
 import { ApolloProvider } from '@apollo/client';
-import {client} from './ApolloClient/Config.ts';
+import {client} from './ApolloClient/Config';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

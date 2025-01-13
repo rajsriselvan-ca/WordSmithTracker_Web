@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "@apollo/client";
-import { notifySuccess, notifyError } from "../Shared/Notification.ts"; 
-import { LoginProps } from "../Types/Login_Types.ts";
-import { LOGIN_USER } from "../GraphQL/Mutations/Login_Mutation.ts";
-import {useAuth} from "../Context/AuthContext.tsx";
+import { notifySuccess, notifyError } from "../Shared/Notification"; 
+import { LoginProps } from "../Types/Login_Types";
+import { LOGIN_USER } from "../GraphQL/Mutations/Login_Mutation";
+import {useAuth} from "../Context/AuthContext";
  
 const Login: React.FC<LoginProps> = ({ setUserEmail }) => {
   const {login} = useAuth();

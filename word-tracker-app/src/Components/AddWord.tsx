@@ -1,7 +1,7 @@
 import React from "react";
-import Loader from "../UIComponents/Loader.tsx";
-import AddWordForm from "../UIComponents/AddWordForm.tsx";
-import { UseAddWord } from "../CustomHooks/UseAddWord.ts";
+import Loader from "../UIComponents/Loader";
+import AddWordForm from "../UIComponents/AddWordForm";
+import { UseAddWord } from "../CustomHooks/UseAddWord";
 
 const AddWord: React.FC = () => {
   const {

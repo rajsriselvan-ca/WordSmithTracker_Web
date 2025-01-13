@@ -1,6 +1,6 @@
 import React from "react";
-import Loader from "../UIComponents/Loader.tsx";
-import { AddWordFormProps } from "../Types/AddWordForm_Types.ts";
+import Loader from "../UIComponents/Loader";
+import { AddWordFormProps } from "../Types/AddWordForm_Types";
 
 const AddWordForm: React.FC<AddWordFormProps> = ({
   newWord,

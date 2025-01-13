@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 import { useLazyQuery, useMutation } from "@apollo/client";
 import { message } from "antd";
-import { notifyError } from "../Shared/Notification.ts";
-import { Word, GetWordsResponse } from "../Types/Word_Types.ts";
-import { GetLanguagesResponse } from "../Types/Language_Types.ts";
-import { GET_WORDS } from "../GraphQL/Queries/Words_Queries.ts";
-import { GET_LANGUAGES } from "../GraphQL/Queries/LanguageList_Queries.ts";
-import { EDIT_WORD, DELETE_WORD } from "../GraphQL/Mutations/Words_Mutations.ts";
+import { notifyError } from "../Shared/Notification";
+import { Word, GetWordsResponse } from "../Types/Word_Types";
+import { GetLanguagesResponse } from "../Types/Language_Types";
+import { GET_WORDS } from "../GraphQL/Queries/Words_Queries";
+import { GET_LANGUAGES } from "../GraphQL/Queries/LanguageList_Queries";
+import { EDIT_WORD, DELETE_WORD } from "../GraphQL/Mutations/Words_Mutations";
 
 export const UseWordList = () => {
   const [userId, setUserId] = useState<string>("");

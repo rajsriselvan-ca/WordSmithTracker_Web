@@ -1,7 +1,7 @@
 import React from "react";
 import { Modal, Input, Select } from "antd";
-import Loader from "../UIComponents/Loader.tsx";
-import { EditWordModalProps } from "../Types/EditWordModal_Types.ts";
+import Loader from "../UIComponents/Loader";
+import { EditWordModalProps } from "../Types/EditWordModal_Types";
 
 const { TextArea } = Input;
 const { Option } = Select;

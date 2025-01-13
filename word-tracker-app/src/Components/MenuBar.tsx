@@ -2,7 +2,7 @@ import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { FaPlus, FaList, FaChartBar, FaSignOutAlt, FaChevronLeft } from "react-icons/fa";
 import { MenuBarProps } from "../Types/MenuBar_Types";
-import {useLogout} from "../Shared/Logout.ts"
+import {useLogout} from "../Shared/Logout"
 
 const MenuBar: React.FC<MenuBarProps> = ({
   isSidebarOpen,

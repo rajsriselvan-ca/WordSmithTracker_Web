@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 import { useLazyQuery, useMutation } from "@apollo/client";
 import { message } from "antd";
-import { notifyError } from "../Shared/Notification.ts";
-import { GetWordsResponse } from "../Types/Word_Types.ts";
-import { GET_LANGUAGES } from "../GraphQL/Queries/LanguageList_Queries.ts";
-import { GET_WORDS } from "../GraphQL/Queries/Words_Queries.ts";
-import { ADD_WORD } from "../GraphQL/Mutations/Words_Mutations.ts";
-import {useAuth} from "../Context/AuthContext.tsx";
+import { notifyError } from "../Shared/Notification";
+import { GetWordsResponse } from "../Types/Word_Types";
+import { GET_LANGUAGES } from "../GraphQL/Queries/LanguageList_Queries";
+import { GET_WORDS } from "../GraphQL/Queries/Words_Queries";
+import { ADD_WORD } from "../GraphQL/Mutations/Words_Mutations";
+import {useAuth} from "../Context/AuthContext";
 
 export const UseAddWord = () => {
   const {userDetails} = useAuth();
