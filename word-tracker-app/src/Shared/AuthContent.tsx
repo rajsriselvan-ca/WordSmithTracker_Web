@@ -17,7 +17,7 @@ interface AuthContentProps {
 const AuthContent: React.FC<AuthContentProps> = ({ isSidebarOpen, setIsSidebarOpen }) => {
   const { isAuthenticated } = useAuth(); 
   const location = useLocation(); 
-  const shouldShowMenuBar = isAuthenticated && location.pathname !== "/";
+  const shouldShowMenuBar = isAuthenticated && location.pathname !== "/" &&  location.pathname !== "/register";
 
   return (
     <>
