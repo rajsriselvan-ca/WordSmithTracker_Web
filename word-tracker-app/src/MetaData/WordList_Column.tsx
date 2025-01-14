@@ -1,34 +1,44 @@
 import React from "react";
 import { Space } from "antd";
 import { Word } from "../Types/Word_Types";
+import type { Breakpoint } from "antd/es/_util/responsiveObserver"; 
 
 export const GetColumns = (
   handleEdit: (record: Word) => void,
-  renderDelete: (id: string) => React.ReactNode 
+  renderDelete: (id: string) => React.ReactNode
 ) => [
   {
     title: "Word",
     dataIndex: "word",
     key: "word",
+    responsive: ["xs", "sm", "md", "lg", "xl"] as Breakpoint[], 
+    className: "text-sm sm:text-base",
   },
   {
     title: "Language",
     dataIndex: "language",
     key: "language",
+    responsive: ["sm", "md", "lg", "xl"] as Breakpoint[],
+    className: "text-sm sm:text-base",
   },
   {
     title: "Meaning",
     dataIndex: "meaning",
     key: "meaning",
+    responsive: ["md", "lg", "xl"] as Breakpoint[],
+    className: "text-sm sm:text-base",
   },
   {
     title: "Example Sentence",
     dataIndex: "exampleSentence",
     key: "exampleSentence",
+    responsive: ["lg", "xl"] as Breakpoint[],
+    className: "text-sm sm:text-base",
   },
   {
     title: "Actions",
     key: "actions",
+    responsive: ["xs", "sm", "md", "lg", "xl"] as Breakpoint[],
     render: (_: any, record: Word) => (
       <Space size="middle">
         <button
@@ -37,8 +47,9 @@ export const GetColumns = (
         >
           Edit
         </button>
-        {renderDelete(record.id)} 
+        {renderDelete(record.id)}
       </Space>
     ),
+    className: "text-sm sm:text-base",
   },
 ];

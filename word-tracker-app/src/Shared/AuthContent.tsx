@@ -27,17 +27,17 @@ const AuthContent: React.FC<AuthContentProps> = ({ isSidebarOpen, setIsSidebarOp
           setIsSidebarOpen={setIsSidebarOpen}
         />
       )}
-      <div className="flex-grow bg-gray-100 p-4">
-        <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route element={<ProtectedRoute />}>
-            <Route path="/add-word" element={<AddWord />} />
-            <Route path="/word-list" element={<WordList />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-          </Route>
-        </Routes>
-      </div>
+      <div className="flex-grow bg-gray-100 p-4 sm:p-6 md:p-8">
+  <Routes>
+    <Route path="/" element={<Login />} />
+    <Route path="/register" element={<Register />} />
+    <Route element={<ProtectedRoute />}>
+      <Route path="/add-word" element={<AddWord />} />
+      <Route path="/word-list" element={<WordList />} />
+      <Route path="/dashboard" element={<Dashboard />} />
+    </Route>
+  </Routes>
+</div>
     </>
   );
 };

@@ -12,10 +12,12 @@ const MenuBar: React.FC<MenuBarProps> = ({ isSidebarOpen, setIsSidebarOpen }) =>
 
   return (
     <div
-      className={`bg-menubar text-white transition-all duration-300 flex flex-col justify-between ${
-        isSidebarOpen ? "w-72" : "w-20"
-      }`}
-    >
+  className={`bg-menubar text-white flex flex-col justify-between transition-all duration-300 ${
+    isSidebarOpen ? "w-72" : "w-20"
+  } ${
+    window.innerWidth < 768 ? "w-full h-auto" : "" 
+  }`}
+>
       <div className="p-4 flex items-center">
         <div className={`text-3xl ${isSidebarOpen ? "" : "mx-auto"}`}>
           <img src="/logo192.png" alt="App Logo" />
