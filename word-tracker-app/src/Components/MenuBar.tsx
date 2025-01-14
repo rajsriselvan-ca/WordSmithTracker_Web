@@ -96,26 +96,26 @@ const MenuBar: React.FC<MenuBarProps> = ({ isSidebarOpen, setIsSidebarOpen }) =>
           </Link>
         </li>
         <li>
-          <a 
-            onClick={handleLogout} 
-            className={`flex items-center space-x-4 p-2 rounded cursor-pointer ${
-              isActive("/") ? "bg-primary" : ""
-            }`}
-          >
-            <div
-              className={`${
-                isSidebarOpen ? "text-xl" : "text-3xl"
-              } transition-all`}
-            >
-              <FaSignOutAlt />
-            </div>
-            {isSidebarOpen && (
-              <span>
-                <span className="font-bold">Logout</span>
-                <p className="text-sm text-gray-300">End your session</p>
-              </span>
-            )}
-          </a>
+    <button
+      onClick={handleLogout}
+      className={`flex items-center space-x-4 p-2 rounded cursor-pointer bg-transparent border-none text-left ${
+        isActive("/") ? "bg-primary" : ""
+      }`}
+    >
+      <div
+        className={`${
+          isSidebarOpen ? "text-xl" : "text-3xl"
+        } transition-all`}
+      >
+        <FaSignOutAlt />
+      </div>
+      {isSidebarOpen && (
+        <span>
+          <span className="font-bold">Logout</span>
+          <p className="text-sm text-gray-300">End your session</p>
+        </span>
+      )}
+        </button>
         </li>
       </ul>
       <div
