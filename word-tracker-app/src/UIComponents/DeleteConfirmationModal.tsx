@@ -1,7 +1,7 @@
 import React from "react";
 import { Modal, message, Button } from "antd";
 import { GetWordsResponse } from "../Types/Word_Types";
-import { DeleteConfirmationModalProps } from "../Types/DeleteConfirmationModal";
+import { DeleteConfirmationModalProps } from "../Types/DeleteConfirmation_Types";
 
 const DeleteConfirmationModal: React.FC<DeleteConfirmationModalProps> = ({
   id,

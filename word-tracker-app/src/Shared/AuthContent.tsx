@@ -8,11 +8,8 @@ import WordList from "../Components/WordList";
 import Dashboard from "../Components/Dashboard";
 import { useAuth } from "../Context/AuthContext";
 import ProtectedRoute from "../Shared/ProtectedRoute";
+import {AuthContentProps} from "../Types/AuthContentProps_Types"
 
-interface AuthContentProps {
-  isSidebarOpen: boolean;
-  setIsSidebarOpen: React.Dispatch<React.SetStateAction<boolean>>;
-}
 
 const AuthContent: React.FC<AuthContentProps> = ({ isSidebarOpen, setIsSidebarOpen }) => {
   const { isAuthenticated } = useAuth(); 
