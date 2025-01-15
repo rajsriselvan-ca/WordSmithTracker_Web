@@ -42,7 +42,12 @@ const WordList: React.FC = () => {
   return (
     <div>
       <h1 className="font-bold mb-4">List Of Words</h1>
-      <Table dataSource={wordData?.getWords || []} columns={columns} rowKey="id" />
+      <Table
+        dataSource={wordData?.getWords || []}
+        columns={columns}
+        rowKey="id"
+        pagination={{ pageSize: 4 }} 
+      />
       <EditWordModal
         isModalVisible={isModalVisible}
         setIsModalVisible={setIsModalVisible}
