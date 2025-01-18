@@ -40,8 +40,9 @@ export const useLogin = () => {
       } else {
         setError("Invalid credentials. Please try again.");
       }
-    } catch (err) {
-      notifyError("Login Failed", "An error occurred during login. Please try again.");
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : "Something went wrong, Please try again.";
+      notifyError("Login Failed", `${errorMessage}`);
       setError("An error occurred. Please try again.");
     }
   };
