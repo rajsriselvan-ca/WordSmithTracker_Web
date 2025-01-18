@@ -1,14 +1,15 @@
 import React from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import { useAuth } from "../Context/AuthContext";
+import Loader from "../UIComponents/Loader";
 
 const ProtectedRoute: React.FC = () => {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, loading } = useAuth();
 
-  if (!isAuthenticated) {
-    return <Navigate to="/" replace />;
+  if (loading) {
+    return <Loader />; 
   }
-  return <Outlet />;
+  return isAuthenticated ? <Outlet /> : <Navigate to="/" />;
 };
 
 export default ProtectedRoute;
