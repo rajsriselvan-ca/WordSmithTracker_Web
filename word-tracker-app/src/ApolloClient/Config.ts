@@ -1,4 +1,4 @@
-import { ApolloClient, InMemoryCache } from '@apollo/client';
+import { ApolloClient, InMemoryCache } from "@apollo/client";
 
 export const client = new ApolloClient({
   uri: "http://localhost:2929/graphql",
@@ -7,9 +7,25 @@ export const client = new ApolloClient({
       Query: {
         fields: {
           getWords: {
-            merge(_, incoming) {
-              return incoming; 
-            },
+            keyArgs: ["userId", "page", "limit"],
+            merge(
+              existing = { words: [], total: 0 },
+              incoming = { words: [], total: 0 },
+              { args }
+            ) {
+              if (!args) return incoming;
+              const { page, limit } = args;
+              const startIndex = (page - 1) * limit;
+              const mergedWords = [...existing.words];
+              for (let i = 0; i < incoming.words.length; i++) {
+                mergedWords[startIndex + i] = incoming.words[i];
+              }
+              const trimmedWords = mergedWords.slice(0, incoming.total);
+              return {
+                ...incoming,
+                words: trimmedWords,
+              };
+            }                    
           },
         },
       },

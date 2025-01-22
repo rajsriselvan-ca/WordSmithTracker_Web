@@ -21,16 +21,20 @@ const DeleteConfirmationModal: React.FC<DeleteConfirmationModalProps> = ({
             update: (cache) => {
               const existingWords = cache.readQuery<GetWordsResponse>({
                 query: cacheQuery,
-                variables: { userId },
+                variables: { userId, page: 1, limit: 4 },
               });
-              if (existingWords) {
+              if (existingWords?.getWords?.words) {
                 cache.writeQuery({
                   query: cacheQuery,
-                  variables: { userId },
+                  variables: { userId, page: 1, limit: 4 },
                   data: {
-                    getWords: existingWords.getWords.filter(
-                      (word) => word.id !== id
-                    ),
+                    getWords: {
+                      __typename: "PaginatedWords",
+                      words: existingWords.getWords.words.filter(
+                        (word) => word.id !== id
+                      ),
+                      total: existingWords.getWords.total - 1,
+                    },
                   },
                 });
               }
@@ -48,10 +52,7 @@ const DeleteConfirmationModal: React.FC<DeleteConfirmationModalProps> = ({
   };
 
   return (
-    <Button
-      onClick={showDeleteConfirm}
-      danger
-    >
+    <Button onClick={showDeleteConfirm} danger>
       Delete
     </Button>
   );

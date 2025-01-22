@@ -6,7 +6,6 @@ import EditWordModal from "../UIComponents/EditWordModal";
 import DeleteConfirmationModal from "../UIComponents/DeleteConfirmationModal";
 import { UseWordList } from "../CustomHooks/UseWordList";
 import { GET_WORDS } from "../GraphQL/Queries/Words_Queries";
-import { notifyError } from "../Shared/Notification";
 
 const WordList: React.FC = () => {
   const {
@@ -24,18 +23,34 @@ const WordList: React.FC = () => {
     handleSaveEdit,
     deleteWord,
     loadWords,
+    currentPage,
+    setCurrentPage,
+    pageSize,
+    notifyError,
   } = UseWordList();
 
-  const columns = GetColumns(handleEdit, (id: string) => (
-    <DeleteConfirmationModal
-      id={id}
-      userId={userId}
-      deleteWord={deleteWord}
-      cacheQuery={GET_WORDS}
-      onSuccess={() => loadWords({ variables: { userId } })}
-      onError={(errorMessage) => notifyError("Sorry!", errorMessage)}
-    />
-  ));
+  const data = wordData?.getWords?.words || [];
+  const totalRecords = wordData?.getWords?.total || 0;
+
+  const handleTableChange = (pagination : any) => {
+    const newPage = pagination.current;
+    setCurrentPage(newPage);
+    loadWords({ variables: { userId, page: newPage, limit: pageSize } });
+  };
+
+  const columns = GetColumns(
+    handleEdit,
+    (id: string) => (
+      <DeleteConfirmationModal
+        key={`delete-${id}`} 
+        id={id}
+        userId={userId}
+        deleteWord={deleteWord}
+        cacheQuery={GET_WORDS}
+        onSuccess={() => loadWords({ variables: { userId } })}
+        onError={(errorMessage) => notifyError("Sorry!", errorMessage)}
+      />
+    ));
 
   if (wordsLoading || languagesLoading) return <Loader />;
 
@@ -43,12 +58,19 @@ const WordList: React.FC = () => {
     <div>
       <h1 className="font-bold mb-4">List Of Words</h1>
       <Table
-        dataSource={wordData?.getWords || []}
-        columns={columns}
-        rowKey="id"
-        pagination={{ pageSize: 4 }} 
-      />
-      <EditWordModal
+      dataSource={data}
+      columns={columns}
+      rowKey={(record) => record.id} 
+      loading={wordsLoading}
+      pagination={{
+        current: currentPage,
+        pageSize,
+        total: totalRecords, 
+        showSizeChanger: false, 
+      }}
+      onChange={handleTableChange}
+    />
+    <EditWordModal
         isModalVisible={isModalVisible}
         setIsModalVisible={setIsModalVisible}
         formState={formState}

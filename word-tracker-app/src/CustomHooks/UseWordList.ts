@@ -10,6 +10,7 @@ import { EDIT_WORD, DELETE_WORD } from "../GraphQL/Mutations/Words_Mutations";
 
 export const UseWordList = () => {
   const [userId, setUserId] = useState<string>("");
+  const [currentPage, setCurrentPage] = useState(1);
   const [formState, setFormState] = useState({
     id: "",
     userId: "",
@@ -22,36 +23,46 @@ export const UseWordList = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [saving, setSaving] = useState(false);
 
-  const [loadWords, { data: wordData, loading: wordsLoading }] =
-    useLazyQuery<GetWordsResponse, { userId: string }>(GET_WORDS);
+  const [loadWords, { data: wordData, loading: wordsLoading }] = useLazyQuery(GET_WORDS, {
+    fetchPolicy: "cache-and-network", 
+  });
   const [loadLanguages, { data: languageData, loading: languagesLoading }] =
-    useLazyQuery<GetLanguagesResponse>(GET_LANGUAGES);
+  useLazyQuery<GetLanguagesResponse>(GET_LANGUAGES);
   const [editWord] = useMutation(EDIT_WORD);
   const [deleteWord] = useMutation(DELETE_WORD);
+  const [pageSize] = useState(4);
 
   useEffect(() => {
-    const storedUser = localStorage.getItem("userDetails");
-    if (!storedUser) {
-      notifyError("Sorry!", "User details not found in local storage.");
-      return;
-    }
+    const initializeAndFetchWords = async () => {
+      if (!userId) {
+        const storedUser = localStorage.getItem("userDetails");
+        if (!storedUser) {
+          notifyError("Sorry!", "User details not found in local storage.");
+          return;
+        }
 
-    const userDetails = JSON.parse(storedUser);
-    if (!userDetails?.id) {
-      notifyError("Sorry!", "User ID is missing in stored user details.");
-      return;
-    }
+        const userDetails = JSON.parse(storedUser);
+        if (!userDetails?.id) {
+          notifyError("Sorry!", "User ID is missing in stored user details.");
+          return;
+        }
 
-    setUserId(userDetails.id);
+        setUserId(userDetails.id);
+      }
 
-    loadWords({ variables: { userId: userDetails.id } }).catch((error) =>
-      notifyError("Sorry!", `Failed to load words: ${error.message}`)
-    );
-
-    loadLanguages().catch((error) =>
-      notifyError("Sorry!", `Failed to load languages: ${error.message}`)
-    );
-  }, [loadWords, loadLanguages]);
+      if (userId) {
+        try {
+          await Promise.all([
+            fetchWords(userId, currentPage, pageSize),
+            loadLanguages(),
+          ]);
+        } catch (error: any) {
+          notifyError("Sorry!", `Failed to load data: ${error.message}`);
+        }
+      }
+    };
+    initializeAndFetchWords();
+  }, [userId, currentPage, pageSize]);
 
   const handleEdit = (word: Word | null) => {
     if (!word || !userId) {
@@ -97,15 +108,19 @@ export const UseWordList = () => {
             variables: { userId },
           });
           if (existingWords) {
+            const updatedWords = existingWords.getWords.words.map((word) =>
+              word.id === formState.id
+                ? { ...formState, createdAt }
+                : word
+            );
             cache.writeQuery({
               query: GET_WORDS,
               variables: { userId },
               data: {
-                getWords: existingWords.getWords.map((word) =>
-                  word.id === formState.id
-                    ? { ...formState, createdAt }
-                    : word
-                ),
+                getWords: {
+                  words: updatedWords, 
+                  total: existingWords.getWords.total, 
+                },
               },
             });
           }
@@ -117,6 +132,16 @@ export const UseWordList = () => {
       notifyError("Sorry!", `Failed to update word: ${error.message}`);
     } finally {
       setSaving(false);
+    }
+  };
+
+  const fetchWords = async (userId: string, page: number, limit: number) => {
+    try {
+      await loadWords({
+        variables: { userId, page, limit },
+      });
+    } catch (error: any) {
+      notifyError("Sorry!", `Failed to load words: ${error.message}`);
     }
   };
 
@@ -135,5 +160,9 @@ export const UseWordList = () => {
     handleSaveEdit,
     deleteWord,
     loadWords,
+    currentPage,
+    setCurrentPage,
+    pageSize,
+    notifyError,
   };
 };

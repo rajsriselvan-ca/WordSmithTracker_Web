@@ -2,41 +2,47 @@ import { useState, useEffect } from "react";
 import { useLazyQuery, useMutation } from "@apollo/client";
 import { message } from "antd";
 import { notifyError } from "../Shared/Notification";
-import { GetWordsResponse } from "../Types/Word_Types";
 import { GET_LANGUAGES } from "../GraphQL/Queries/LanguageList_Queries";
 import { GET_WORDS } from "../GraphQL/Queries/Words_Queries";
 import { ADD_WORD } from "../GraphQL/Mutations/Words_Mutations";
-import {useAuth} from "../Context/AuthContext";
+import { useAuth } from "../Context/AuthContext";
+import { GetWordsResponse } from "../Types/GetWordResponse_Types";
 
 export const UseAddWord = () => {
-  const {userDetails} = useAuth();
+  const { userDetails } = useAuth();
   const [newWord, setNewWord] = useState("");
   const [language, setLanguage] = useState("");
   const [meaning, setMeaning] = useState("");
   const [sampleSentence, setSampleSentence] = useState("");
   const [saving, setSaving] = useState(false);
   const [languages, setLanguages] = useState<{ id: string; name: string }[]>([]);
+  const [pageSize] = useState(4);
 
   const [loadLanguages, { loading: languagesLoading }] = useLazyQuery(GET_LANGUAGES);
 
   const [addWord] = useMutation(ADD_WORD, {
     update(cache, { data: { addWord } }) {
+      const query = GET_WORDS;
       const storedUser = userDetails;
-      const { id } = storedUser ? storedUser : {};
-      const existingWords = cache.readQuery<GetWordsResponse>({
-        query: GET_WORDS,
-        variables: { userId: id },
+      const { id } = storedUser || {};
+      const existingData = cache.readQuery<GetWordsResponse>({
+        query,
+        variables: { userId: id, page: 1, limit: pageSize },
       });
-  
-      if (existingWords) {
-        cache.writeQuery({
-          query: GET_WORDS,
-          variables: { userId: id },
-          data: {
-            getWords: [...existingWords.getWords, addWord],
+
+      if (!existingData || !existingData.getWords) return;
+      const { words, total } = existingData.getWords;
+      const updatedWords = [addWord, ...words].slice(0, pageSize);
+      cache.writeQuery<GetWordsResponse>({
+        query,
+        variables: { userId: id, page: 1, limit: pageSize },
+        data: {
+          getWords: {
+            words: updatedWords,
+            total: total + 1,
           },
-        });
-      }
+        },
+      });
     },
   });
 
@@ -49,9 +55,9 @@ export const UseAddWord = () => {
         } else {
           notifyError("Sorry!", "Failed to fetch language list.");
         }
-      } catch (error: any) {
-        const errorMessage = error?.message || "An unexpected error occurred.";
-        notifyError("Sorry!", `Error while fetching languages: ${errorMessage}`);
+      } catch (error: unknown) {
+        const errorMessage = error instanceof Error ? error.message : "An unexpected error occured. Please try again."
+        notifyError("Sorry!", errorMessage);
       }
     };
 
@@ -66,7 +72,7 @@ export const UseAddWord = () => {
       const createdAt = new Date().toISOString();
       const exampleSentence = sampleSentence;
       const storedUser = userDetails;
-      const { id } = storedUser ? storedUser : null;
+      const { id } = storedUser || {};
 
       await addWord({
         variables: {
@@ -84,9 +90,9 @@ export const UseAddWord = () => {
       setLanguage("");
       setMeaning("");
       setSampleSentence("");
-    } catch (error: any) {
-      const errorMessage = error?.message || "An unexpected error occurred.";
-      notifyError("Sorry!", `Failed to add word. Please try again: ${errorMessage}`);
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : "An unexpected error occured. Please try again."
+      notifyError("Sorry!", errorMessage);
     } finally {
       setSaving(false);
     }

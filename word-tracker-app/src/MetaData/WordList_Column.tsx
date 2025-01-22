@@ -1,17 +1,18 @@
 import React from "react";
 import { Space } from "antd";
+import { ColumnsType } from "antd/es/table";
 import { Word } from "../Types/Word_Types";
-import type { Breakpoint } from "antd/es/_util/responsiveObserver"; 
+import type { Breakpoint } from "antd/es/_util/responsiveObserver";
 
 export const GetColumns = (
   handleEdit: (record: Word) => void,
   renderDelete: (id: string) => React.ReactNode
-) => [
+): ColumnsType<Word> => [
   {
     title: "Word",
     dataIndex: "word",
     key: "word",
-    responsive: ["xs", "sm", "md", "lg", "xl"] as Breakpoint[], 
+    responsive: ["xs", "sm", "md", "lg", "xl"] as Breakpoint[],
     className: "text-sm sm:text-base",
   },
   {

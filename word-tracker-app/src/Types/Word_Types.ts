@@ -7,6 +7,11 @@ export interface Word {
   createdAt: string;
 }
 
+export interface PaginatedWords {
+  words: Word[]; 
+  total: number; 
+}
+
 export interface GetWordsResponse {
-  getWords: Word[];
+  getWords: PaginatedWords; 
 }
