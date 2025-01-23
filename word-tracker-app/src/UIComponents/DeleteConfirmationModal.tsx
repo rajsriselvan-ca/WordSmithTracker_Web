@@ -14,6 +14,9 @@ const DeleteConfirmationModal: React.FC<DeleteConfirmationModalProps> = ({
   const showDeleteConfirm = () => {
     Modal.confirm({
       title: "Are you sure you want to delete this word?",
+      okButtonProps: {
+        style: { backgroundColor: "red", color: "white" }, 
+      },
       onOk: async () => {
         try {
           await deleteWord({
@@ -24,15 +27,16 @@ const DeleteConfirmationModal: React.FC<DeleteConfirmationModalProps> = ({
                 variables: { userId, page: 1, limit: 4 },
               });
               if (existingWords?.getWords?.words) {
+                const updatedWords = existingWords.getWords.words.filter(
+                  (word) => word.id !== id
+                );
                 cache.writeQuery({
                   query: cacheQuery,
                   variables: { userId, page: 1, limit: 4 },
                   data: {
                     getWords: {
                       __typename: "PaginatedWords",
-                      words: existingWords.getWords.words.filter(
-                        (word) => word.id !== id
-                      ),
+                      words: updatedWords,
                       total: existingWords.getWords.total - 1,
                     },
                   },

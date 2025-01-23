@@ -47,7 +47,7 @@ const WordList: React.FC = () => {
         userId={userId}
         deleteWord={deleteWord}
         cacheQuery={GET_WORDS}
-        onSuccess={() => loadWords({ variables: { userId } })}
+        onSuccess={() => loadWords({ variables: { userId, page: currentPage, limit: pageSize } })}
         onError={(errorMessage) => notifyError("Sorry!", errorMessage)}
       />
     ));
