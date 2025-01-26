@@ -29,7 +29,7 @@ const AddWord: React.FC = () => {
 
   return (
     <div className="p-4 max-w-md mx-auto">
-      <h1 className="text-2xl font-bold mb-4">Add New Word</h1>
+      <h1 className="text-2xl font-bold mb-4 text-theme">Add New Word</h1>
       <AddWordForm
         newWord={newWord}
         setNewWord={setNewWord}

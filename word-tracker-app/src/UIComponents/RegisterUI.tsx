@@ -12,8 +12,8 @@ const RegisterUI: React.FC<RegisterUIProps> = ({
   onRegister,
   onNavigate,
 }) => (
-  <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-4">
-    <h1 className="text-3xl font-bold mb-6">Register</h1>
+  <div className="min-h-screen flex flex-col items-center justify-center p-4">
+    <h1 className="text-2xl mb-6 text-theme">Register</h1>
     <input
       type="text"
       value={username}
@@ -40,12 +40,12 @@ const RegisterUI: React.FC<RegisterUIProps> = ({
     {error && <p className="text-red-500 mb-4">{error}</p>}
     <button
       onClick={onRegister}
-      className="bg-primary text-white px-4 py-2 rounded hover:bg-lavender-light"
+      className="bg-highlighter text-white px-4 py-2 rounded hover:bg-highlighterLite"
     >
       Register
     </button>
     <p
-      className="mt-4 text-blue-500 cursor-pointer"
+      className="mt-4 text-highlighter cursor-pointer font-thin"
       onClick={onNavigate}
     >
       Already have an account? Sign In

@@ -10,7 +10,9 @@ module.exports = {
         lavender: {
           light: "#9C80EA",
         },
-        menubar: "rgb(56 67 65)"
+        theme: "rgb(56 67 65)",
+        highlighter: "#e83a57",
+        highlighterLite: "#FA5F55"
       }
     },
   },

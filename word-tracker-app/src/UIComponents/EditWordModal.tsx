@@ -19,6 +19,7 @@ const EditWordModal: React.FC<EditWordModalProps> = ({
     <Modal
       open={isModalVisible}
       footer={null}
+      style={{ top: 50 }} 
       onCancel={() => setIsModalVisible(false)}
     >
       <div className="mb-4">

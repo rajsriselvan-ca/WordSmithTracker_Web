@@ -56,7 +56,7 @@ const WordList: React.FC = () => {
 
   return (
     <div>
-      <h1 className="font-bold mb-4">List Of Words</h1>
+      <h1 className="font-bold mb-4 text-theme">List Of Words</h1>
       <Table
       dataSource={data}
       columns={columns}
