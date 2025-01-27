@@ -1,7 +1,7 @@
 import { ApolloClient, InMemoryCache } from "@apollo/client";
 
 export const client = new ApolloClient({
-  uri: "http://localhost:2929/graphql",
+  uri: "https://wordsmith-qeyb.onrender.com/graphql", 
   cache: new InMemoryCache({
     typePolicies: {
       Query: {
@@ -25,11 +25,10 @@ export const client = new ApolloClient({
                 ...incoming,
                 words: trimmedWords,
               };
-            }                    
+            },
           },
         },
       },
     },
   }),
-});
-
+}); 
