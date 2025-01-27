@@ -9,6 +9,7 @@ export const useRegister = () => {
   const [email, setEmail] = useState<string>("");
   const [dailyGoal, setDailyGoal] = useState<number | "">("");
   const [error, setError] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false); 
   const navigate = useNavigate();
 
   const [createUser] = useMutation(CREATE_USER);
@@ -42,6 +43,7 @@ export const useRegister = () => {
     }
 
     setError("");
+    setLoading(true); 
     try {
       const createdAt = new Date().toISOString();
       await createUser({
@@ -52,6 +54,8 @@ export const useRegister = () => {
     } catch (error: any) {
       setError("Registration failed. Please try again.");
       notifyError("Error", error.message);
+    } finally {
+      setLoading(false); 
     }
   };
 
@@ -60,6 +64,7 @@ export const useRegister = () => {
     email,
     dailyGoal,
     error,
+    loading, 
     setUsername,
     setEmail,
     handleDailyGoalChange,

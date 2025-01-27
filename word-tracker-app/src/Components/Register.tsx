@@ -7,6 +7,7 @@ const Register: React.FC = () => {
     username,
     email,
     dailyGoal,
+    loading,
     error,
     setUsername,
     setEmail,
@@ -20,6 +21,7 @@ const Register: React.FC = () => {
       username={username}
       email={email}
       dailyGoal={dailyGoal}
+      loading = {loading}
       error={error}
       onUsernameChange={setUsername}
       onEmailChange={setEmail}

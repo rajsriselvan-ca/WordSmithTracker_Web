@@ -3,6 +3,7 @@ export interface RegisterUIProps {
   email: string;
   dailyGoal: number | "";
   error: string;
+  loading: boolean;
   onUsernameChange: (value: string) => void;
   onEmailChange: (value: string) => void;
   onDailyGoalChange: (value: string) => void;
