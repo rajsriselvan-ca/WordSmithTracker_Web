@@ -14,7 +14,7 @@ const LoginUI: React.FC<LoginUIProps> = ({
   <div className="flex items-center justify-center px-4 bg-gray-100 min-h-screen">
     <div className="w-full max-w-md flex flex-col items-center bg-white p-6 rounded-lg shadow-md relative">
       {loading && ( 
-        <div className="absolute inset-0 bg-gray-50 bg-opacity-75 flex justify-center items-center rounded-lg">
+        <div className="mb-5 bg-opacity-75 flex justify-center items-center rounded-lg">
           <Loader />
         </div>
       )}

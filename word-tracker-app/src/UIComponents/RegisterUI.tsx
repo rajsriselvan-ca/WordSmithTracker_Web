@@ -16,7 +16,7 @@ const RegisterUI: React.FC<RegisterUIProps> = ({
 }) => (
   <div className="min-h-screen flex flex-col items-center justify-center p-4 relative">
     {loading && ( 
-      <div className="absolute inset-0 bg-gray-50 bg-opacity-75 flex justify-center items-center rounded-lg">
+      <div className="mb-5 bg-opacity-75 flex justify-center items-center rounded-lg">
         <Loader />
       </div>
     )}
