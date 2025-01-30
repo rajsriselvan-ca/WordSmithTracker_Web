@@ -1,10 +1,8 @@
 import React from "react";
-import { Modal, Input, Select } from "antd";
+import { Modal } from "antd";
 import Loader from "../UIComponents/Loader";
 import { EditWordModalProps } from "../Types/EditWordModal_Types";
-
-const { TextArea } = Input;
-const { Option } = Select;
+import InputField from "./InputField"; 
 
 const EditWordModal: React.FC<EditWordModalProps> = ({
   isModalVisible,
@@ -22,48 +20,49 @@ const EditWordModal: React.FC<EditWordModalProps> = ({
       style={{ top: 50 }} 
       onCancel={() => setIsModalVisible(false)}
     >
-      <div className="mb-4">
-        <label className="block font-medium mb-1">Edit Word</label>
-        <Input
-          placeholder="Word"
-          value={formState.word}
-          onChange={(e) => setFormState({ ...formState, word: e.target.value })}
-        />
-      </div>
-      <div className="mb-4">
-        <label className="block font-medium mb-1">Language</label>
-        <Select
-          placeholder="Select Language"
-          value={formState.language}
-          onChange={(value) => setFormState({ ...formState, language: value })}
-          className="w-full"
-        >
-          {languageData?.map((lang) => (
-            <Option key={lang.id} value={lang.name}>
-              {lang.name}
-            </Option>
-          ))}
-        </Select>
-      </div>
-      <div className="mb-4">
-        <label className="block font-medium mb-1">Meaning</label>
-        <Input
-          placeholder="Meaning"
-          value={formState.meaning}
-          onChange={(e) => setFormState({ ...formState, meaning: e.target.value })}
-        />
-      </div>
-      <div className="mb-4">
-        <label className="block font-medium mb-1">Example Sentence</label>
-        <TextArea
-          placeholder="Enter example sentence"
-          value={formState.exampleSentence}
-          onChange={(e) =>
-            setFormState({ ...formState, exampleSentence: e.target.value })
-          }
-          rows={4}
-        />
-      </div>
+      <InputField
+        id="word"
+        label="Edit Word"
+        value={formState.word}
+        onChange={(e) =>
+          setFormState({ ...formState, word: e.target.value })
+        }
+        placeholder="Word"
+        required
+      />
+      <InputField
+        id="language"
+        label="Language"
+        value={formState.language}
+        onChange={(e) =>
+          setFormState({ ...formState, language: e.target.value })
+        }
+        type="select"
+        selectOptions={languageData || []}
+        placeholder="Select Language"
+        required
+      />
+      <InputField
+        id="meaning"
+        label="Meaning"
+        value={formState.meaning}
+        onChange={(e) =>
+          setFormState({ ...formState, meaning: e.target.value })
+        }
+        placeholder="Meaning"
+        required
+      />
+      <InputField
+        id="exampleSentence"
+        label="Example Sentence"
+        value={formState.exampleSentence}
+        onChange={(e) =>
+          setFormState({ ...formState, exampleSentence: e.target.value })
+        }
+        placeholder="Enter example sentence"
+        required
+        type="textarea"
+      />
       <div className="flex justify-end mt-4">
         <button
           className="bg-primary text-white py-2 px-4 rounded hover:bg-lavender-light mr-2"

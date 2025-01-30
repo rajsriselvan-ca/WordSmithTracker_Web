@@ -28,7 +28,7 @@ const AddWord: React.FC = () => {
   }
 
   return (
-    <div className="p-4 max-w-md mx-auto">
+    <div className="p-4 max-w-md mx-auto min-w-[300px]">
       <h1 className="text-2xl font-bold mb-4 text-theme">Add New Word</h1>
       <AddWordForm
         newWord={newWord}
