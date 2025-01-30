@@ -57,6 +57,7 @@ const WordList: React.FC = () => {
   return (
     <div>
       <h1 className="font-bold mb-4 text-theme">List Of Words</h1>
+      <div className="min-w-[300px]">
       <Table
       dataSource={data}
       columns={columns}
@@ -69,7 +70,9 @@ const WordList: React.FC = () => {
         showSizeChanger: false, 
       }}
       onChange={handleTableChange}
+      scroll={{x: true}}
     />
+      </div>
     <EditWordModal
         isModalVisible={isModalVisible}
         setIsModalVisible={setIsModalVisible}
