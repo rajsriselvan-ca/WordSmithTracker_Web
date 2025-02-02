@@ -1,11 +1,14 @@
 import React from "react";
 import { Table } from "antd";
+import { ColumnsType } from "antd/es/table";
 import { GetColumns } from "../MetaData/WordList_Column";
 import Loader from "../UIComponents/Loader";
 import EditWordModal from "../UIComponents/EditWordModal";
 import DeleteConfirmationModal from "../UIComponents/DeleteConfirmationModal";
 import { UseWordList } from "../CustomHooks/UseWordList";
 import { GET_WORDS } from "../GraphQL/Queries/Words_Queries";
+import { Word } from "../Types/Word_Types";
+import { PaginationConfig } from "../Types/TablePagination_Types";
 
 const WordList: React.FC = () => {
   const {
@@ -29,26 +32,26 @@ const WordList: React.FC = () => {
     notifyError,
   } = UseWordList();
 
-  const data = wordData?.getWords?.words || [];
-  const totalRecords = wordData?.getWords?.total || 0;
+  const data: Word[] = wordData?.getWords?.words || [];
+  const totalRecords: number = wordData?.getWords?.total || 0;
 
-  const handleTableChange = (pagination : any) => {
-    const newPage = pagination.current;
+  const handleTableChange = (pagination: PaginationConfig) => {
+    const newPage = pagination.current || 1;
     setCurrentPage(newPage);
     loadWords({ variables: { userId, page: newPage, limit: pageSize } });
   };
 
-  const columns = GetColumns(
+  const columns: ColumnsType<Word> = GetColumns(
     handleEdit,
     (id: string) => (
       <DeleteConfirmationModal
-        key={`delete-${id}`} 
+        key={`delete-${id}`}
         id={id}
         userId={userId}
         deleteWord={deleteWord}
         cacheQuery={GET_WORDS}
         onSuccess={() => loadWords({ variables: { userId, page: currentPage, limit: pageSize } })}
-        onError={(errorMessage) => notifyError("Sorry!", errorMessage)}
+        onError={(errorMessage: string) => notifyError("Sorry!", errorMessage)}
       />
     ));
 
@@ -58,22 +61,22 @@ const WordList: React.FC = () => {
     <div>
       <h1 className="font-bold mb-4 text-theme">List Of Words</h1>
       <div className="min-w-[300px]">
-      <Table
-      dataSource={data}
-      columns={columns}
-      rowKey={(record) => record.id} 
-      loading={wordsLoading}
-      pagination={{
-        current: currentPage,
-        pageSize,
-        total: totalRecords, 
-        showSizeChanger: false, 
-      }}
-      onChange={handleTableChange}
-      scroll={{x: true}}
-    />
+        <Table<Word>
+          dataSource={data}
+          columns={columns}
+          rowKey={(record) => record.id}
+          loading={wordsLoading}
+          pagination={{
+            current: currentPage,
+            pageSize,
+            total: totalRecords,
+            showSizeChanger: false,
+          }}
+          onChange={handleTableChange}
+          scroll={{ x: true }}
+        />
       </div>
-    <EditWordModal
+      <EditWordModal
         isModalVisible={isModalVisible}
         setIsModalVisible={setIsModalVisible}
         formState={formState}

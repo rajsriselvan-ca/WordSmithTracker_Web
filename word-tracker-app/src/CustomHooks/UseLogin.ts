@@ -33,6 +33,7 @@ export const useLogin = () => {
         login(token, {
           id: user.id,
           username: user.username,
+          email: email, 
           dailyGoal: user.dailyGoal,
         });
         notifySuccess("Login Success", `Welcome ${user.username}`);

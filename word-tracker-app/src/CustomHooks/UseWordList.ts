@@ -56,8 +56,9 @@ export const UseWordList = () => {
             fetchWords(userId, currentPage, pageSize),
             loadLanguages(),
           ]);
-        } catch (error: any) {
-          notifyError("Sorry!", `Failed to load data: ${error.message}`);
+        } catch (error: unknown) {
+          const errorMessage = error instanceof Error ? error.message : "Failed to load data.";
+          notifyError("Sorry!", `Failed to load data: ${errorMessage}`);
         }
       }
     };
@@ -128,8 +129,9 @@ export const UseWordList = () => {
       });
       message.success("Word updated successfully");
       setIsModalVisible(false);
-    } catch (error: any) {
-      notifyError("Sorry!", `Failed to update word: ${error.message}`);
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : "Failed to update word.";
+      notifyError("Sorry!", `Failed to update word: ${errorMessage}`);
     } finally {
       setSaving(false);
     }
@@ -140,8 +142,9 @@ export const UseWordList = () => {
       await loadWords({
         variables: { userId, page, limit },
       });
-    } catch (error: any) {
-      notifyError("Sorry!", `Failed to load words: ${error.message}`);
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : "Failed to load words.";
+      notifyError("Sorry!", `Failed to load words: ${errorMessage}`);
     }
   };
 

@@ -40,7 +40,7 @@ export const GetColumns = (
     title: "Actions",
     key: "actions",
     responsive: ["xs", "sm", "md", "lg", "xl"] as Breakpoint[],
-    render: (_: any, record: Word) => (
+    render: (_: unknown, record: Word) => (
       <Space size="middle">
         <button
           className="bg-primary text-white py-2 px-4 rounded hover:bg-lavender-light"

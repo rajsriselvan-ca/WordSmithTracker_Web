@@ -1,10 +1,10 @@
 import React, { createContext, useState, useContext, useEffect } from "react";
-import { AuthContextType } from "../Types/AuthContext_Types";
+import { AuthContextType, UserDetails } from "../Types/AuthContext_Types";
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [userDetails, setUserDetails] = useState<any>(null);
+  const [userDetails, setUserDetails] = useState<UserDetails | null>(null);
   const [token, setToken] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true); 
 
@@ -14,12 +14,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     if (savedToken && savedUser) {
       setToken(savedToken);
-      setUserDetails(JSON.parse(savedUser));
+      setUserDetails(JSON.parse(savedUser) as UserDetails);
     }
     setLoading(false); 
   }, []);
 
-  const login = (newToken: string, newUser: any) => {
+  const login = (newToken: string, newUser: UserDetails) => {
     setToken(newToken);
     setUserDetails(newUser);
     localStorage.setItem("authToken", newToken);

@@ -51,9 +51,10 @@ export const useRegister = () => {
       });
       notifySuccess("Success", "User Successfully Created!");
       navigate("/");
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : "Registration failed. Please try again.";
       setError("Registration failed. Please try again.");
-      notifyError("Error", error.message);
+      notifyError("Error", errorMessage);
     } finally {
       setLoading(false); 
     }

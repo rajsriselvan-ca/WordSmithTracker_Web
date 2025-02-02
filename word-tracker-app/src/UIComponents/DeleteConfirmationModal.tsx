@@ -46,9 +46,8 @@ const DeleteConfirmationModal: React.FC<DeleteConfirmationModalProps> = ({
           });
           message.success("Word deleted successfully");
           onSuccess();
-        } catch (error: any) {
-          const errorMessage =
-            error?.message || "An unexpected error occurred.";
+        } catch (error: unknown) {
+          const errorMessage = error instanceof Error ? error.message : "An unexpected error occurred.";
           onError(errorMessage);
         }
       },
