@@ -1,7 +1,22 @@
-import { ApolloClient, InMemoryCache } from "@apollo/client";
+import { ApolloClient, InMemoryCache, HttpLink, from } from "@apollo/client";
+import { RetryLink } from "@apollo/client/link/retry";
+
+const httpLink = new HttpLink({
+  uri: "https://wordsmith-qeyb.onrender.com/graphql",
+});
+
+const retryLink = new RetryLink({
+  attempts: (count, operation, error) => {
+    if (error && error.networkError) {
+      return count < 3; 
+    }
+    return false;
+  },
+  delay: (count) => Math.min(1000 * 2 ** count, 5000), 
+});
 
 export const client = new ApolloClient({
-  uri: "https://wordsmith-qeyb.onrender.com/graphql", 
+  link: from([retryLink, httpLink]), 
   cache: new InMemoryCache({
     typePolicies: {
       Query: {
