@@ -50,6 +50,10 @@ const WordList: React.FC = () => {
         userId={userId}
         deleteWord={deleteWord}
         cacheQuery={GET_WORDS}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+        totalRecords={totalRecords}
+        loadWords={loadWords}  
         onSuccess={() => loadWords({ variables: { userId, page: currentPage, limit: pageSize } })}
         onError={(errorMessage: string) => notifyError("Sorry!", errorMessage)}
       />
