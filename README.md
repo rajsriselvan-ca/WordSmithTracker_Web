@@ -5,10 +5,10 @@ A React.js-based frontend application built with TypeScript, Apollo Client and T
 
 🚀 Features
 
-✔️ Add & manage words
-📆 Daily goal tracking visual view
-🌍 Language selection
-🎨 Responsive UI with Tailwind CSS
+✔️ Add & manage words\
+📆 Daily goal tracking visual view\
+🌍 Language selection\
+🎨 Responsive UI with Tailwind CSS\
 
 🛠️ Tech Stack
 
