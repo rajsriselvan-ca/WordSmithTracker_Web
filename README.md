@@ -1,14 +1,14 @@
 
 📖🖊️ __WordSmith__ [Vocabulary Tracker App] (Client)
 
-A React.js-based frontend application built with TypeScript, Apollo Client and Tailwind CSS to help users track and manage their daily vocabulary goals, personal word library, and progress.
+A React.js based frontend application built with TypeScript, Apollo Client and Tailwind CSS to help users track and manage their daily vocabulary goals, personal word library, and progress.
 
 🚀 Features
 
 ✔️ Add & manage words\
 📆 Daily goal tracking visual view\
 🌍 Language selection\
-🎨 Responsive UI with Tailwind CSS\
+🎨 Responsive UI with Tailwind CSS
 
 🛠️ Tech Stack
 
@@ -24,16 +24,15 @@ Clone the repo:
 git clone https://github.com/rajsriselvan-ca/WordSmithTracker_Web.git
 ```
 
-🔧 Install dependencies:
+🔧 Source Directory:
 ```bash
 cd word-tracker-app
 ```
 
+🚀 Run the app:
 ```bash
 npm install
 ```
-
-🚀 Run the app:
 ```bash
 npm start
 ```
