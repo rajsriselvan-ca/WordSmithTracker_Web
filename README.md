@@ -8,7 +8,7 @@ A React.js based frontend application built with TypeScript, Apollo Client and T
 ✔️ Add & manage words\
 📆 Daily goal tracking visual view\
 🌍 Language selection\
-🎨 Responsive UI with Tailwind CSS
+🎨 Responsive UI with Tailwind CSS & Animation
 
 🛠️ Tech Stack
 
@@ -44,3 +44,4 @@ Deployed on Netlify.
 🤝 Contributing
 
 If you find a bug, have a feature suggestion, or want to contribute, feel free to open an issue or submit a pull request!" 🚀
+
